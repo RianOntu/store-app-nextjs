@@ -2,7 +2,11 @@
 import { useForm } from "react-hook-form";
 
 const CreateStore = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -16,6 +20,7 @@ const CreateStore = () => {
         <p className="text-gray-500 text-sm mt-1">
           Add your basic store information and complete the setup
         </p>
+        <hr className="text-[#E5E7EB] mt-3 mb-3" />
 
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
@@ -29,7 +34,6 @@ const CreateStore = () => {
                     <label className="block text-sm font-medium text-gray-700">
                       Give your online store a name
                     </label>
-
                     <p className="text-xs text-gray-500">
                       A great store name is a big part of your success. Make
                       sure it aligns with your brand and products.
@@ -37,12 +41,25 @@ const CreateStore = () => {
                   </div>
                 </div>
               </div>
-              <input
-                type="text"
-                {...register("storeName")}
-                placeholder="How'd you like to call your store?"
-                className="mt-2 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
-              />
+              <div className="w-full md:w-[393.88px]">
+                <input
+                  type="text"
+                  {...register("storeName", {
+                    required: "Store name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Store name must be at least 3 characters long",
+                    },
+                  })}
+                  placeholder="How'd you like to call your store?"
+                  className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
+                />
+                {errors.storeName && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.storeName.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
@@ -65,15 +82,36 @@ const CreateStore = () => {
               </div>
 
               <div className="flex mt-2 justify-end">
-                <input
-                  type="text"
-                  {...register("subdomain")}
-                  placeholder="Enter your domain name"
-                  className="flex-1 px-4 py-2 border rounded-l-md focus:ring-2 focus:ring-purple-400"
-                />
-                <span className="px-4 py-2 border bg-gray-100 rounded-r-md text-gray-500">
-                  .expressitbd.com
-                </span>
+                <div className="flex items-center border rounded-md w-full md:w-[393.88px]">
+                  <div>
+                    <div>
+                    <input
+                      type="text"
+                      {...register("subdomain", {
+                        required: "Subdomain is required",
+                        pattern: {
+                          value: /^[a-zA-Z0-9-]+$/,
+                          message:
+                            "Only letters, numbers, and hyphens are allowed",
+                        },
+                      })}
+                      placeholder="Enter your domain name"
+                      className="flex-1 px-2 py-2 border-l focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    />
+                     {errors.subdomain && (
+                      <p className="text-red-500 text-sm mt-1 absolute">
+                        {errors.subdomain.message}
+                      </p>
+                    )}
+                    </div>
+                 
+                  </div>
+
+                  {/* Right Placeholder */}
+                  <span className="px-3 text-gray-500 ">.expressitbd.com</span>
+               
+                </div>
+              
               </div>
             </div>
           </div>
@@ -98,7 +136,7 @@ const CreateStore = () => {
               <div className="justify-end">
                 <select
                   {...register("location")}
-                  className="mt-2 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
+                  className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
                 >
                   <option>Bangladesh</option>
                 </select>
@@ -126,7 +164,7 @@ const CreateStore = () => {
               <div>
                 <select
                   {...register("category")}
-                  className="mt-2 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
+                  className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
                 >
                   <option>Fashion</option>
                   <option>Electronics</option>
@@ -155,7 +193,7 @@ const CreateStore = () => {
               <div className="justify-end">
                 <select
                   {...register("currency")}
-                  className="mt-2 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
+                  className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
                 >
                   <option>BDT (Taka)</option>
                   <option>USD (Dollar)</option>
@@ -175,8 +213,8 @@ const CreateStore = () => {
                       Store contact email
                     </label>
                     <p className="text-xs text-gray-500">
-                      This is the email you'll use to send notifications to and
-                      receive orders from customers.
+                      This is the email you'll use to send notifications to{" "}
+                      <br /> and receive orders from customers.
                     </p>
                   </div>
                 </div>
@@ -184,10 +222,21 @@ const CreateStore = () => {
               <div className="justify-end">
                 <input
                   type="email"
-                  {...register("email")}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email format",
+                    },
+                  })}
                   placeholder="you@example.com"
-                  className="mt-2 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
+                  className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
