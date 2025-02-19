@@ -13,7 +13,9 @@
     --foreground: #ededed;
   }
 }
-
+.create_store_btn {
+  margin-top: 44px !important;
+}
 body {
   color: var(--foreground);
   background: var(--background);
