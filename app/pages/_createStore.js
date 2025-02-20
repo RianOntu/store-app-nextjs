@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const CreateStore = () => {
   const [availableError, setAvailableError] = useState("");
-  const 
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -59,12 +60,12 @@ const CreateStore = () => {
           theme: "light",
         });
 
-      
-        reset(); 
+        reset();
         setAvailableError("");
+        router.push("/shop");
       } else {
         setAvailableError("Not available domain! Re-enter");
-        reset({}, { keepValues: true }); 
+        reset({}, { keepValues: true });
       }
     } catch (error) {
       console.error("Error:", error);

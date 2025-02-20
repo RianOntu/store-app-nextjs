@@ -13,6 +13,12 @@
     --foreground: #ededed;
   }
 }
+img {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  object-position:15% 15%;
+}
 .create_store_btn {
   margin-top: 44px !important;
 }
