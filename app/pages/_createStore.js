@@ -1,15 +1,85 @@
 "use client";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const CreateStore = () => {
+  const [availableError, setAvailableError] = useState("");
+  const 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    reset,
+  } = useForm({
+    mode: "onChange",
+  });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      // Clear all errors before submission
+      reset({}, { keepValues: true }); // Reset errors but keep values for now
+      setAvailableError("");
+
+      const { storeName, subdomain, location, category, currency, email } =
+        data;
+      const checkResponse = await fetch(
+        `https://interview-task-green.vercel.app/task/domains/check/${subdomain}.expressitbd.com`
+      );
+      const checkResult = await checkResponse.json();
+
+      if (!checkResult.data.taken) {
+        const createResponse = await fetch(
+          `https://interview-task-green.vercel.app/task/stores/create`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: storeName,
+              currency,
+              country: location,
+              domain: subdomain,
+              category,
+              email,
+            }),
+          }
+        );
+        const createResult = await createResponse.json();
+        console.log("result", createResult);
+        toast.success("🦄 Store created successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+      
+        reset(); 
+        setAvailableError("");
+      } else {
+        setAvailableError("Not available domain! Re-enter");
+        reset({}, { keepValues: true }); 
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Sorry.something went wrong!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      reset({}, { keepValues: true }); // Clear errors but keep values on error
+    }
   };
 
   return (
@@ -26,7 +96,7 @@ const CreateStore = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
           {/* Store Name */}
           <div>
-            <div className="flex flex-col md:flex-row items-center  gap-4">
+            <div className="flex flex-col md:flex-row items-center gap-4">
               <div>
                 <div className="flex items-start">
                   <i className="fa-solid fa-desktop text-[#3B82F6] mr-2 mt-1"></i>
@@ -65,10 +135,10 @@ const CreateStore = () => {
 
           {/* Subdomain */}
           <div>
-            <div className="flex flex-col md:flex-row items-center  gap-4">
+            <div className="flex flex-col md:flex-row items-center gap-4">
               <div className="justify-start">
                 <div className="flex items-start">
-                  <i class="fa-solid fa-earth-africa mr-2 text-[#3B82F6] mt-1"></i>
+                  <i className="fa-solid fa-earth-africa mr-2 text-[#3B82F6] mt-1"></i>
                   <div className="">
                     <label className="block text-sm font-medium text-gray-700">
                       Your online store subdomain
@@ -85,43 +155,38 @@ const CreateStore = () => {
                 <div className="flex items-center border rounded-md w-full md:w-[393.88px]">
                   <div>
                     <div>
-                    <input
-                      type="text"
-                      {...register("subdomain", {
-                        required: "Subdomain is required",
-                        pattern: {
-                          value: /^[a-zA-Z0-9-]+$/,
-                          message:
-                            "Only letters, numbers, and hyphens are allowed",
-                        },
-                      })}
-                      placeholder="Enter your domain name"
-                      className="flex-1 px-2 py-2 border-l focus:outline-none focus:ring-2 focus:ring-purple-400"
-                    />
-                     {errors.subdomain && (
-                      <p className="text-red-500 text-sm mt-1 absolute">
-                        {errors.subdomain.message}
-                      </p>
-                    )}
+                      <input
+                        type="text"
+                        {...register("subdomain", {
+                          required: "Subdomain is required",
+                          pattern: {
+                            value: /^[a-zA-Z0-9-]+$/,
+                            message:
+                              "Only letters, numbers, and hyphens are allowed",
+                          },
+                        })}
+                        placeholder="Enter your domain name"
+                        className="flex-1 px-2 py-2 border-l focus:outline-none focus:ring-2 focus:ring-purple-400"
+                      />
+                      {(errors.subdomain || availableError) && (
+                        <p className="text-red-500 text-sm mt-1 absolute">
+                          {errors.subdomain?.message || availableError}
+                        </p>
+                      )}
                     </div>
-                 
                   </div>
-
-                  {/* Right Placeholder */}
-                  <span className="px-3 text-gray-500 ">.expressitbd.com</span>
-               
+                  <span className="px-3 text-gray-500">.expressitbd.com</span>
                 </div>
-              
               </div>
             </div>
           </div>
 
           {/* Store Location */}
           <div>
-            <div className="flex flex-col md:flex-row items-center  justify-between">
+            <div className="flex flex-col md:flex-row items-center justify-between">
               <div>
                 <div className="flex">
-                  <i class="fa-solid fa-location-dot mr-2 text-[#3B82F6] mt-1"></i>
+                  <i className="fa-solid fa-location-dot mr-2 text-[#3B82F6] mt-1"></i>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Where's your store located?
@@ -135,11 +200,18 @@ const CreateStore = () => {
               </div>
               <div className="justify-end">
                 <select
-                  {...register("location")}
+                  {...register("location", {
+                    required: "Location is required",
+                  })}
                   className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
                 >
-                  <option>Bangladesh</option>
+                  <option value="Bangladesh">Bangladesh</option>
                 </select>
+                {errors.location && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.location.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -149,7 +221,7 @@ const CreateStore = () => {
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div>
                 <div className="flex">
-                  <i class="fa-solid fa-shapes mr-2 text-[#3B82F6] mt-1"></i>
+                  <i className="fa-solid fa-shapes mr-2 text-[#3B82F6] mt-1"></i>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       What's your Category?
@@ -163,13 +235,20 @@ const CreateStore = () => {
               </div>
               <div>
                 <select
-                  {...register("category")}
+                  {...register("category", {
+                    required: "Category is required",
+                  })}
                   className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
                 >
-                  <option>Fashion</option>
-                  <option>Electronics</option>
-                  <option>Grocery</option>
+                  <option value="Fashion">Fashion</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Grocery">Grocery</option>
                 </select>
+                {errors.category && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.category.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -179,7 +258,7 @@ const CreateStore = () => {
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div>
                 <div className="flex">
-                  <i class="fa-solid fa-dollar-sign mr-2 text-[#3B82F6] mt-1"></i>
+                  <i className="fa-solid fa-dollar-sign mr-2 text-[#3B82F6] mt-1"></i>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Choose store currency
@@ -192,12 +271,19 @@ const CreateStore = () => {
               </div>
               <div className="justify-end">
                 <select
-                  {...register("currency")}
+                  {...register("currency", {
+                    required: "Currency is required",
+                  })}
                   className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
                 >
-                  <option>BDT (Taka)</option>
-                  <option>USD (Dollar)</option>
+                  <option value="BDT">BDT (Taka)</option>
+                  <option value="USD">USD (Dollar)</option>
                 </select>
+                {errors.currency && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.currency.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -207,7 +293,7 @@ const CreateStore = () => {
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div>
                 <div className="flex">
-                  <i class="fa-solid fa-envelope mr-2 text-[#3B82F6] mt-1"></i>
+                  <i className="fa-solid fa-envelope mr-2 text-[#3B82F6] mt-1"></i>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Store contact email
