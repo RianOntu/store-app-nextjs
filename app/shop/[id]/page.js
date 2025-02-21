@@ -40,6 +40,7 @@ export async function generateMetadata({ params }) {
           width: 1200,
           height: 600,
         },
+        
       ],
     },
   };
