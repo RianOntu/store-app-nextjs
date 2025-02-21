@@ -67,6 +67,7 @@ const CreateStore = () => {
         router.push("/shop");
       } else {
         setAvailableError("Not available domain! Re-enter");
+        setIsLoading(false);
         reset({}, { keepValues: true });
       }
     } catch (error) {
@@ -86,19 +87,19 @@ const CreateStore = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
-        <StoreFormHeader />
-        <StoreFormFields
-          register={register}
-          errors={errors}
-          availableError={availableError}
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-        />
-        <SubmitButton isLoading={isLoading} />
-      </div>
+    <div className="flex items-center justify-start md:justify-center min-h-screen bg-gray-50">
+    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <StoreFormHeader />
+      <StoreFormFields
+        register={register}
+        errors={errors}
+        availableError={availableError}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        isLoading={isLoading}
+      />
     </div>
+  </div>
   );
 };
 

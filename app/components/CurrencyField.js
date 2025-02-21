@@ -1,3 +1,4 @@
+'use client'
 const CurrencyField = ({ register, errors }) => (
     <div>
       <div className="flex flex-col md:flex-row items-center justify-between">
@@ -17,7 +18,11 @@ const CurrencyField = ({ register, errors }) => (
         <div>
           <select
             {...register("currency", { required: "Currency is required" })}
-            className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
+            className={`mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400 ${
+                errors.storeName
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
           >
             <option value="BDT">BDT (Taka)</option>
             <option value="USD">USD (Dollar)</option>

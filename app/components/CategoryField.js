@@ -1,3 +1,4 @@
+'use client'
 const CategoryField = ({ register, errors }) => (
     <div>
       <div className="flex flex-col md:flex-row items-center justify-between">
@@ -18,7 +19,11 @@ const CategoryField = ({ register, errors }) => (
         <div>
           <select
             {...register("category", { required: "Category is required" })}
-            className="mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400"
+            className={`mt-2 w-full md:w-[393.88px] px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-400 ${
+                errors.storeName
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
           >
             <option value="Fashion">Fashion</option>
             <option value="Electronics">Electronics</option>

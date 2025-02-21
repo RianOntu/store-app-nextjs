@@ -1,3 +1,4 @@
+'use client'
 const SubmitButton = ({ isLoading }) => (
   <div className="flex justify-end mt-[50px]">
     <button

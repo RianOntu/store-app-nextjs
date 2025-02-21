@@ -1,3 +1,4 @@
+'use client'
 const StoreFormHeader = () => (
     <>
       <h2 className="text-2xl font-semibold text-gray-900">Create a store</h2>
