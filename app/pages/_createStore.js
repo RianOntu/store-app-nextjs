@@ -88,7 +88,7 @@ const CreateStore = () => {
 
   return (
     <div className="flex items-center justify-start md:justify-center min-h-screen bg-gray-50">
-    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl max-h-[100vh] overflow-y-auto">
       <StoreFormHeader />
       <StoreFormFields
         register={register}

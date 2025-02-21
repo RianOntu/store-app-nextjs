@@ -17,7 +17,7 @@ const SubdomainField = ({ register, errors, availableError }) => (
         </div>
       </div>
       <div className="flex mt-2 justify-end">
-  <div className="flex items-center border rounded-md w-full md:w-[393.88px]">
+  <div className="flex items-center border rounded-md w-[311px] md:w-[393.88px]">
     <div>
       <div>
         <input
@@ -41,7 +41,7 @@ const SubdomainField = ({ register, errors, availableError }) => (
         )}
       </div>
     </div>
-    <span className="px-3 text-gray-500">.expressitbd.com</span>
+    <span className="px-3 text-gray-500 hidden md:block">.expressitbd.com</span>
   </div>
 </div>
     </div>
