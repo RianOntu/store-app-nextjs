@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const name = searchParams.get("name") || "My Website";
+  const title = searchParams.get("title") || "My Website";
   const image = searchParams.get("image") || "";
 
   return new ImageResponse(
@@ -21,9 +21,13 @@ export async function GET(request) {
         }}
       >
         {image ? (
-          <img src={image} alt={name} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+          <img
+            src={image}
+            alt={title}
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+          />
         ) : (
-          <span>{name}</span>
+          <span>{title}</span>
         )}
       </div>
     ),
@@ -34,4 +38,4 @@ export async function GET(request) {
   );
 }
 
-export const runtime = "edge"; 
+export const runtime = "edge";
