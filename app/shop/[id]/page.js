@@ -3,7 +3,6 @@ import LinkedIn from "@/app/pages/linkedIn";
 import Twitter from "@/app/pages/twitter";
 import React from "react";
 
-
 async function getProduct(id) {
   const response = await fetch(
     `https://glore-bd-backend-node-mongo.vercel.app/api/product`,
@@ -13,9 +12,9 @@ async function getProduct(id) {
     throw new Error("Failed to fetch products");
   }
   const products = await response.json();
-  console.log("API Response:", products); 
+  console.log("API Response:", products);
 
-  const productList = products.data || products; 
+  const productList = products.data || products;
   if (!Array.isArray(productList)) {
     throw new Error("API response is not an array");
   }
@@ -36,11 +35,14 @@ export async function generateMetadata({ params }) {
     openGraph: {
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?image=${encodeURIComponent(singleProduct?.images?.[0]?.optimizeUrl || "")}`,
+          url: `${
+            process.env.NEXT_PUBLIC_SITE_URL
+          }/api/og?image=${encodeURIComponent(
+            singleProduct?.images?.[0]?.optimizeUrl || ""
+          )}`,
           width: 1200,
           height: 600,
         },
-        
       ],
     },
   };
@@ -57,26 +59,23 @@ export default async function Page({ params }) {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-          {product.images && product.images.length > 0 ? (
-            product.images.map((image, index) => (
-              <img
-                key={index}
-                src={image.optimizeUrl}
-                alt={`${product.name} ${index + 1}`}
-                className="w-full h-[400px] object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-              />
-            ))
-          ) : (
+        {product.images && product.images.length > 0 ? (
+          product.images.map((image, index) => (
             <img
-              src="https://via.placeholder.com/300x200"
-              alt="No image available"
-              className="w-full h-48 object-cover rounded-lg shadow-md col-span-2"
+              key={index}
+              src={image.optimizeUrl}
+              alt={`${product.name} ${index + 1}`}
+              className="w-full h-[400px] object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             />
-          )}
- 
+          ))
+        ) : (
+          <img
+            src="https://via.placeholder.com/300x200"
+            alt="No image available"
+            className="w-full h-48 object-cover rounded-lg shadow-md col-span-2"
+          />
+        )}
 
-        {/* Product Details */}
         <div className="bg-white p-6 rounded-lg shadow-md h-[400px] flex flex-col justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">

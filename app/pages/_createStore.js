@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 const CreateStore = () => {
   const [availableError, setAvailableError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -17,6 +18,7 @@ const CreateStore = () => {
   });
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
       // Clear all errors before submission
       reset({}, { keepValues: true }); // Reset errors but keep values for now
@@ -59,7 +61,7 @@ const CreateStore = () => {
           progress: undefined,
           theme: "light",
         });
-
+        setIsLoading(false);
         reset();
         setAvailableError("");
         router.push("/shop");
@@ -332,9 +334,10 @@ const CreateStore = () => {
           <div className="flex justify-end mt-[50px]">
             <button
               type="submit"
-              className="create_store_btn px-3 bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600 transition"
+              disabled={isLoading}
+              className="create_store_btn px-3 bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600 transition disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-75"
             >
-              Create store
+              {isLoading ? "Creating Store..." : "Create Store"}
             </button>
           </div>
         </form>
