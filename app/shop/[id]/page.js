@@ -31,7 +31,7 @@ export async function generateMetadata({ params }) {
   const singleProduct = await getProduct(params.id);
 
   return {
-    title: singleProduct?.name?.slice(0, 100),
+    name: singleProduct?.name?.slice(0, 100),
     description: singleProduct?.description?.slice(0, 100),
     openGraph: {
       images: [
