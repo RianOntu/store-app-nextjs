@@ -1,10 +1,10 @@
+"use client";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+  const [darkMode, setDarkMode] = useState(false);
 
   // Toggle Dark Mode
   useEffect(() => {
@@ -22,12 +22,12 @@ const Navbar = () => {
       <div className="max-w-[90%] mx-auto px-6 sm:px-12">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <a
-            href="#"
+          <Link
+            href="/shop"
             className="text-2xl font-bold text-blue-600 dark:text-yellow-400"
           >
             MyStore
-          </a>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">

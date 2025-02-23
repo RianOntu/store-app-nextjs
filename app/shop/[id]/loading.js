@@ -1,13 +1,13 @@
-'use client'
+"use client";
 import React from "react";
 
 function Loading() {
   return (
-    <>
-      <div className="min-h-screen flex items-center justify-center text-light">
-        <p>Loading...</p>
-      </div>
-    </>
+    <div class="circle-container">
+      <div class="animated-circle one"></div>
+      <div class="animated-circle two"></div>
+      <div class="animated-circle three"></div>
+    </div>
   );
 }
 

@@ -8,7 +8,7 @@ const HeroSection = () => {
       <img
         src="/banner.jpg"
         alt="Fashion Banner"
-        className="absolute inset-0 w-full h-full object-cover opacity-70"
+        className="absolute inset-0 w-full h-full object-cover object-pos opacity-70"
       />
       {/* Overlay */}
       <div className="absolute inset-0 bg-black opacity-50"></div>
