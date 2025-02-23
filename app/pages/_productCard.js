@@ -1,34 +1,24 @@
-"use client";
-
 import Link from "next/link";
+import React from "react";
 
 const ProductCard = ({ product }) => {
-  console.log(product.images[0]);
-  console.log(product.category);
-
   return (
     <Link href={`/shop/${product._id}`}>
-    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white m-4 h-[400px]">
-      <img
-        className="w-full h-60 object-cover"
-        src={product.images[0].optimizeUrl}
-        alt="Product"
-      />
-
-      <div className="px-6 py-4">
-        <h3 className="font-bold text-xl mb-2 text-gray-900">{product.name}</h3>
-
-        <p className="text-gray-700 text-base mb-2">{product.description}</p>
-
-        <p className="text-gray-900 font-semibold text-lg mb-2">
+      <div className="bg-white shadow-md w-375 md:w-[275px] lg:w-[300px]  rounded-lg p-4 hover:shadow-lg transition duration-300">
+        <img
+          src={product.images[0].optimizeUrl}
+          alt={product.name}
+          className="w-full h-60 object-cover rounded-md"
+        />
+        <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
+        <p className="text-gray-600 text-sm">{product.description}</p>
+        <p className="text-green-600 font-bold text-xl mt-2">
           ${product.price}
         </p>
-
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
-          {product.category.name}
-        </span>
+        <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+          Add to Cart
+        </button>
       </div>
-    </div>
     </Link>
   );
 };
