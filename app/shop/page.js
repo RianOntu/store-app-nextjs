@@ -39,7 +39,7 @@ const Page = () => {
           Our Products
         </h1>
         {error && <p className="text-red-500 text-center">{error}</p>}
-        <div className="grid grid-cols-1 place-content-center mx-auto sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-1 lg:gap-3 xl:gap-2">
+        <div className="grid grid-cols-1 place-content-center mx-auto sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1 lg:gap-3 xl:gap-2">
           {storeData.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

@@ -4,7 +4,7 @@ import React from "react";
 const ProductCard = ({ product }) => {
   return (
     <Link href={`/shop/${product._id}`}>
-      <div className="bg-white shadow-md w-375 md:w-[275px] lg:w-[300px]  rounded-lg p-4 hover:shadow-lg transition duration-300">
+      <div className="bg-white shadow-md w-375 md:w-[340px] lg:w-[300px]  rounded-lg p-4 hover:shadow-lg transition duration-300">
         <img
           src={product.images[0].optimizeUrl}
           alt={product.name}
